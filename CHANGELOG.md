@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [0.5.1](https://github.com/Bubichoo-Teitichoo/pygwt/releases/tag/0.5.1) - 2025-07-23
+
+<small>[Compare with 0.5.0](https://github.com/Bubichoo-Teitichoo/pygwt/compare/0.5.0...0.5.1)</small>
+
+### Bug Fixes
+
+- Update imports after renaming package ([555a80d](https://github.com/Bubichoo-Teitichoo/pygwt/commit/555a80d735adb90a685afa84fb5833c7cb264b28) by Philipp Krüger).
+- Gracefully quit when completion is requested outside of git repository ([1bd6550](https://github.com/Bubichoo-Teitichoo/pygwt/commit/1bd65501e1189b451b2bb23992bdc344fff8c6e3) by Philipp Krüger).
+
+### Code Refactoring
+
+- Rename package to 'git_twig' ([4a41daa](https://github.com/Bubichoo-Teitichoo/pygwt/commit/4a41daa206ed30ab2de4336c1ae2e963b49332f5) by Philipp Krüger).
+
 ## [0.5.0](https://github.com/Bubichoo-Teitichoo/pygwt/releases/tag/0.5.0) - 2025-07-09
 
 <small>[Compare with 0.4.0](https://github.com/Bubichoo-Teitichoo/pygwt/compare/0.4.0...0.5.0)</small>
