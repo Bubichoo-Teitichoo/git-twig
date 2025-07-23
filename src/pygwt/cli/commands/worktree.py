@@ -1,5 +1,6 @@
 """Worktree commands."""
 
+import contextlib
 import subprocess
 import sys
 from pathlib import Path
@@ -17,24 +18,33 @@ from pygwt.misc import pushd
 
 def shell_complete_branches(ctx: click.Context, param: click.Parameter, incomplete: str) -> list[str]:  # noqa: ARG001
     """Create a list of branches that match the given incomplete branch name."""
-    return [x for x in git.get_branches() if x.startswith(incomplete)]
+    completions = []
+    with contextlib.suppress(Exception):
+        completions = [x for x in git.get_branches() if x.startswith(incomplete)]
+    return completions
 
 
 def shell_complete_branches_add(ctx: click.Context, param: click.Parameter, incomplete: str) -> list[str]:  # noqa: ARG001
     """Create a list of branches that match the given incomplete branch name."""
-    worktree_branches = [x[1] for x in git.worktree_list()]
-    return [x for x in git.get_branches() if x.startswith(incomplete) and x not in worktree_branches]
+    completions = []
+    with contextlib.suppress(Exception):
+        worktree_branches = [x[1] for x in git.worktree_list()]
+        completions = [x for x in git.get_branches() if x.startswith(incomplete) and x not in worktree_branches]
+    return completions
 
 
 def shell_complete_worktrees(ctx: click.Context, param: click.Parameter, incomplete: str) -> list[str | CompletionItem]:
     """Create a list of worktrees for the given incomplete branch name."""
     repository = ctx.params.get("repository", ".")
 
-    with pushd(repository):
+    completions: list[str | CompletionItem] = []
+    with contextlib.suppress(Exception), pushd(repository):
         worktrees: dict[str, Path] = {x[1]: x[0] for x in git.worktree_list()}
         if ctx.params.get("create", False):
-            return [b for b in shell_complete_branches(ctx, param, incomplete) if b not in worktrees]
-        return [CompletionItem(n, help=str(p)) for n, p in worktrees.items() if n.startswith(incomplete)]
+            completions = [b for b in shell_complete_branches(ctx, param, incomplete) if b not in worktrees]
+        else:
+            completions = [CompletionItem(n, help=str(p)) for n, p in worktrees.items() if n.startswith(incomplete)]
+    return completions
 
 
 def shell_complete_worktrees_remove(
@@ -43,9 +53,14 @@ def shell_complete_worktrees_remove(
     incomplete: str,
 ) -> list[CompletionItem]:
     """Create a list of completions items listing worktree directories of the current repository."""
-    return [
-        CompletionItem(x[0], help=f"{x[1]}@{x[2][:7]}") for x in git.worktree_list() if str(x[0]).startswith(incomplete)
-    ]
+    completions = []
+    with contextlib.suppress(Exception):
+        completions = [
+            CompletionItem(x[0], help=f"{x[1]}@{x[2][:7]}")
+            for x in git.worktree_list()
+            if str(x[0]).startswith(incomplete)
+        ]
+    return completions
 
 
 @click.command()
