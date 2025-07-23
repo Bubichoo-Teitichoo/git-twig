@@ -27,7 +27,7 @@ dependencies = [
 ]
 
 [project.scripts]
-git-twig = "pygwt.__main__:main"
+git-twig = "git_twig.__main__:main"
 
 [dependency-groups]
 dev = [
