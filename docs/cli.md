@@ -1,7 +1,7 @@
 # CLI Reference
 
 ::: mkdocs-click
-    :module: pygwt.__main__
+    :module: git_twig.__main__
     :command: main
     :prog_name: git twig
     :style: plain

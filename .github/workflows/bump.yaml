@@ -15,17 +15,15 @@ jobs:
         ref: main
         fetch-depth: 0
         fetch-tags: true
-    - name: Setup PDM
-      uses: pdm-project/setup-pdm@v4
-      with:
-        python-version: '3.10'
-    - name: Install dependencies
-      run:
-        pdm install --skip post_install
-    - name: Bump Version number
+    - name: Configure git user
       run: |
         git config user.name 'github-actions[bot]'
         git config user.email 'github-actions[bot]@users.noreply.github.com'
-        pdm bump
+    - uses: astral-sh/setup-uv@v6
+      with:
+        python-version: "3.10"
+    - name: Bump Version number
+      run: |
+        uvx --from poethepoet poe bump
         git push
         git push --tags

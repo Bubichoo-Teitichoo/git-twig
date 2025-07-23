@@ -15,33 +15,48 @@ repos:
   - id: trailing-whitespace
     args: ["--markdown-linebreak-ext=md"]
 
-# linting
-- repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.9.2
+# Run linting and uv hooks as system hooks
+- repo: local
   hooks:
     - id: ruff
+      name: "ruff: lint"
+      entry: uv run ruff check src
+      language: system
+      pass_filenames: false
+      stages:
+        - pre-commit
     - id: ruff-format
-
-# static type checking
-- repo: https://github.com/pre-commit/mirrors-mypy
-  rev: v1.14.1
-  hooks:
-  - id: mypy
-    files: ^src/
-    args: [--config-file, pyproject.toml]
-    additional_dependencies:
-    - click
-    - loguru
-    - importlib_resources
-    - shellingham
-    - types-psutil
-    - types-pygit2
-    - pydantic
-
-- repo: https://github.com/pdm-project/pdm
-  rev: '2.22.2'
-  hooks:
-  - id: pdm-lock-check
-  - id: pdm-sync
-    verbose: true
-    args: ["--clean"]
+      name: "ruff: format"
+      language: system
+      entry: uv run ruff format src
+      pass_filenames: false
+      stages:
+        - pre-commit
+    - id: ruff-sort-imports
+      name: "ruff: sort imports"
+      language: system
+      entry: uv run ruff check --fix --select I
+      pass_filenames: false
+      stages:
+        - pre-commit
+    - id: mypy
+      name: mypy
+      language: system
+      entry: uv run mypy src
+      pass_filenames: false
+      stages:
+        - pre-commit
+    - id: uv-sync
+      name: "uv: sync"
+      language: system
+      entry: uv sync --frozen
+      pass_filenames: false
+      stages:
+        - post-merge
+        - post-checkout
+    - id: uv-lock
+      name: "uv: lock"
+      entry: uv lock
+      language: system
+      files: ^(uv\.lock|pyproject\.toml|uv\.toml)$
+      pass_filenames: false

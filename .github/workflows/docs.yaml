@@ -6,9 +6,14 @@ on:
     - main
     tags:
     - "*"
+  workflow_run:
+    workflows:
+      - Bump Version Number
+    types:
+      - completed
 
 concurrency:
-  group: ${{ github.workflow }
+  group: ${{ github.workflow }}
   cancel-in-progress: false
 
 jobs:
@@ -21,28 +26,22 @@ jobs:
       with:
         fetch-depth: 0
         fetch-tags: true
-
     - name: Configure git user
       run: |
         git config user.name 'github-actions[bot]'
         git config user.email 'github-actions[bot]@users.noreply.github.com'
-    - name: Setup PDM
-      uses: pdm-project/setup-pdm@v4
+    - uses: astral-sh/setup-uv@v6
       with:
-        python-version: '3.10'
-    - name: Install dependencies
-      run:
-        pdm install --skip post_install
+        python-version: "3.10"
     - name: Build and deploy docs (branch)
-      if: contains(github.ref, 'refs/heads')
+      if: ${{ github.event_name == 'push' && github.ref_type == 'branch' }}
       run: |
-        eval $(pdm venv activate)
-        git-changelog
-        mike deploy --push --update-aliases --alias-type redirect "dev"
+        uv run git-changelog
+        uv run --group docs mike deploy --push --update-aliases --alias-type redirect "dev"
     - name: Build and deploy docs (tag)
-      if: contains(github.ref, 'refs/tags')
+      if: ${{ github.event_name == 'push' && github.ref_type == 'tag' || github.event_name == 'workflow_run' }}
       run: |
-        eval $(pdm venv activate)
-        version="$(cz version --project | sed -E 's/([0-9]+)\.([0-9]+)\.[0-9]+/\1.\2.x/g')"
-        mike delete "dev"
-        mike deploy --push --update-aliases --alias-type redirect $version latest
+        version="$(uv version --short | sed -E 's/([0-9]+)\.([0-9]+)\.[0-9]+/\1.\2.x/g')"
+        uv run --group docs mike delete "dev"
+        uv run --group docs mike deploy --push --update-aliases --alias-type redirect $version latest
+
