@@ -114,7 +114,7 @@ def is_bare() -> bool:
             - True: If the current clone is a bare checkout.
             - False: If the current clone is not a bare checkout.
     """
-    from pygwt.misc import boolean
+    from git_twig.misc import boolean
 
     return boolean(execute("rev-parse", "--is-bare-repository", capture=True))
 
@@ -188,7 +188,7 @@ def worktree_add(branch: str, *, dest: Path | None = None, start_point: str | No
             the second one points to the root of the repository clone.
 
     """
-    from pygwt.misc import pushd
+    from git_twig.misc import pushd
 
     branch = create_branch(branch, start_point)
 

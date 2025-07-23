@@ -6,10 +6,10 @@ from pathlib import Path
 import click
 from loguru import logger
 
-from pygwt import git
-from pygwt.cli.commands.worktree import shell_complete_worktrees
-from pygwt.config import Registry
-from pygwt.misc import pushd
+from git_twig import git
+from git_twig.cli.commands.worktree import shell_complete_worktrees
+from git_twig.config import Registry
+from git_twig.misc import pushd
 
 _PATH_TYPE = click.Path(exists=True, dir_okay=True, file_okay=False, resolve_path=True, path_type=Path)
 

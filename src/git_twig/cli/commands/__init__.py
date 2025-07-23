@@ -1,14 +1,14 @@
 import click
 
-import pygwt.log
-from pygwt.cli.click import decorators
-from pygwt.cli.commands.init import init
-from pygwt.cli.commands.repository import repository
-from pygwt.cli.commands.worktree import add, clone, ls, remove, shell, switch
+import git_twig.log
+from git_twig.cli.click import decorators
+from git_twig.cli.commands.init import init
+from git_twig.cli.commands.repository import repository
+from git_twig.cli.commands.worktree import add, clone, ls, remove, shell, switch
 
 
 @click.group("twig")
-@pygwt.log.option("-l", "--log")
+@git_twig.log.option("-l", "--log")
 @decorators.common
 def main() -> None:
     """'git worktree' as it should be...

@@ -10,10 +10,10 @@ import click
 from click.shell_completion import CompletionItem
 from loguru import logger
 
-from pygwt import git
-from pygwt.cli.click import decorators
-from pygwt.config import Registry
-from pygwt.misc import pushd
+from git_twig import git
+from git_twig.cli.click import decorators
+from git_twig.config import Registry
+from git_twig.misc import pushd
 
 
 def shell_complete_branches(ctx: click.Context, param: click.Parameter, incomplete: str) -> list[str]:  # noqa: ARG001
@@ -89,7 +89,7 @@ def clone(url: ParseResult, dest: Path) -> None:
     But since the repository is cloned in bare mode
     no other files will be created.
     """
-    from pygwt.misc import pushd
+    from git_twig.misc import pushd
 
     if dest == Path.cwd():
         dirname = url.path.split("/")[-1]
@@ -305,7 +305,7 @@ def shell(name: str, start_point: str | None, *, create: bool, delete: bool) -> 
     """
     import os
 
-    from pygwt.misc import Shell
+    from git_twig.misc import Shell
 
     logger.warning("This command may have some unexpected side-effects.")
     logger.warning("It's recommended to use 'git wt switch' instead")

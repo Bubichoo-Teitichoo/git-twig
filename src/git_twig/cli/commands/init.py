@@ -4,7 +4,7 @@ from enum import Enum
 
 import click
 
-from pygwt.misc import Shell
+from git_twig.misc import Shell
 
 
 class SupportedShell(Enum):
@@ -25,7 +25,7 @@ def init(shell: str) -> None:
     """Initialize your shell for git-twig and completions."""
     import importlib_resources
 
-    resources = importlib_resources.files("pygwt.resources")
+    resources = importlib_resources.files("git_twig.resources")
     match SupportedShell(shell):
         case SupportedShell.PWSH | SupportedShell.POWERSHELL:
             shell_script = resources.joinpath("powershell.ps1")

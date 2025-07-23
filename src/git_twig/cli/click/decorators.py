@@ -5,7 +5,7 @@ from typing import TypeVar
 
 import click
 
-import pygwt.log
+import git_twig.log
 
 T = TypeVar("T", bound=Callable)
 
@@ -27,4 +27,4 @@ def common(func: T) -> T:
     """
     func = click.help_option("-h", "--help")(func)
     func = click.version_option()(func)
-    return pygwt.log.catcher()(func)
+    return git_twig.log.catcher()(func)
