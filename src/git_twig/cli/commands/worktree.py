@@ -56,7 +56,7 @@ def shell_complete_worktrees_remove(
     completions = []
     with contextlib.suppress(Exception):
         completions = [
-            CompletionItem(x[0], help=f"{x[1]}@{x[2][:7]}")
+            CompletionItem(str(x[0]), help=f"{x[1]}@{x[2][:7]}")
             for x in git.worktree_list()
             if str(x[0]).startswith(incomplete)
         ]
