@@ -1,0 +1,5 @@
+[tools]
+"pipx:basedpyright" = "latest"
+"pipx:poethepoet" = "latest"
+ruff = "latest"
+uv = "latest"
