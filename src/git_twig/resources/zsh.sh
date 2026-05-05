@@ -50,12 +50,3 @@ git-twig () {
         command git-twig $@
     fi
 }
-
-git() {
-    if [ "$1" = "twig" ]; then
-        shift 1
-        git-twig $@
-    else
-        command git $@
-    fi
-}
