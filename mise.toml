@@ -1,6 +1,51 @@
 [tools]
 "pipx:basedpyright" = "latest"
-"pipx:poethepoet" = "latest"
 prek = "latest"
 ruff = "latest"
 uv = "latest"
+
+[tasks.bootstrap]
+description = "Create a virtual environment and install the pre-commit hooks."
+run = [
+    "uv sync",
+    "prek install --install-hooks"
+]
+
+[tasks."format:code"]
+run = "ruff format src"
+
+[tasks."format:imports"]
+run = "ruff check src --select I --fix"
+
+[tasks.format]
+description = "Format Python files"
+depends = ["format:*"]
+run = []
+
+[tasks."lint:ruff"]
+run = "ruff check src"
+
+[tasks."lint:format"]
+run = "ruff format src --check"
+
+[tasks."lint:typing"]
+run = "uv run mypy src"
+
+[tasks.lint]
+description = "Static code analysis"
+depends = ["lint:*"]
+run = []
+
+[tasks.bump]
+description = "Bump version"
+run = [
+    "uvx --from commitizen cz bump",
+    "uvx git-changelog",
+    "uv lock",
+    "git commit --amend --no-edit uv.lock CHANGELOG.md",
+    "git tag -f $(uv version --short)",
+]
+
+[tasks.docs]
+description = "Run mkdocs live preview server."
+run = "uv run --group docs mkdocs serve --open"

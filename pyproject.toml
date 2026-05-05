@@ -31,11 +31,8 @@ git-twig = "git_twig.__main__:main"
 
 [dependency-groups]
 dev = [
-    "ruff>=0.4.1",
     "mypy>=1.10.0",
     "types-psutil>=5.9.5.20240516",
-    "git-changelog>=2.5.2",
-    "commitizen>=3.27.0",
 ]
 docs = [
     "mkdocs>=1.6.0",
@@ -95,50 +92,3 @@ check_untyped_defs = true
 [[tool.mypy.overrides]]
 module = "shellingham.*"
 follow_untyped_imports = true
-
-[tool.poe]
-executor.type = "uv"
-
-[tool.poe.tasks]
-_version = "uv version --short"
-
-[tool.poe.tasks._move_tag]
-cmd = "git tag -f ${VERSION}"
-uses = { VERSION = "_version" }
-
-[tool.poe.tasks.install]
-help = "Create a virtual environment and install the pre-commit hooks."
-cmd = "pre-commit install --install-hooks"
-
-[tool.poe.tasks.format]
-help = "Format Python files"
-sequence = [
-    { cmd = "ruff format src" },
-    { cmd = "ruff check src --select I --fix" },
-]
-
-[tool.poe.tasks.lint]
-help = "Static code analysis"
-ignore_fail = "return_non_zero"
-sequence = [
-    { cmd = "ruff check src" },
-    { cmd = "ruff format src --check" },
-    { cmd = "mypy src" },
-]
-
-[tool.poe.tasks.bump]
-help = "Bump version"
-sequence = [
-    { cmd = "cz bump" },
-    { cmd = "git-changelog" },
-    { cmd = "uv lock"},
-    { cmd = "git commit --amend --no-edit uv.lock CHANGELOG.md" },
-    { ref = "_move_tag" }
-]
-
-[tool.poe.tasks.docs]
-help = "Run mkdocs live preview server."
-sequence = [
-    { cmd = "uv sync --group docs"},
-    { cmd = "mkdocs serve --open" },
-]
