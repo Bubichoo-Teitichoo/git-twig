@@ -48,17 +48,18 @@ def shell_complete_worktrees(ctx: click.Context, param: click.Parameter, incompl
 
 
 def shell_complete_worktrees_remove(
-    ctx: click.Context,  # noqa: ARG001
+    ctx: click.Context,
     param: click.Parameter,  # noqa: ARG001
     incomplete: str,
 ) -> list[CompletionItem]:
     """Create a list of completions items listing worktree directories of the current repository."""
     completions = []
+    selected: tuple[str, ...] = ctx.params.get("worktrees", ())
     with contextlib.suppress(Exception):
         completions = [
-            CompletionItem(str(x[0]), help=f"{x[1]}@{x[2][:7]}")
-            for x in git.worktree_list()
-            if str(x[0]).startswith(incomplete)
+            CompletionItem(str(path), help=f"{ref}@{sha[:7]}")
+            for path, ref, sha in git.worktree_list()
+            if str(path).startswith(incomplete) and path not in selected
         ]
     return completions
 
