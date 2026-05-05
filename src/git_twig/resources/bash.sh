@@ -33,35 +33,17 @@ _git_twig_alias_completion() {
     return 1
 }
 
-_git_twig_completion_setup() {
-    complete -o nosort -F _git_twig_completion git-twig
-    complete -o nosort -F _git_twig_alias_completion git
-}
-
-_git_twig_uninit() {
-    if [[ $(type -t git-twig) = function ]]; then
-        unset -f git-twig
-    fi
-
-    if [[ $(type -t git) = function ]]; then
-        unset -f git
-    fi
-}
-
-_git_twig_completion_setup;
-_git_twig_uninit;
-
-export _GIT_TWIG_PATH=$(which git-twig)
-export _GIT_PATH=$(which git)
-
 git-twig () {
     if [ "$1" = "switch" ] || ([ "$1" = "repository" ] && [ "$2" = "switch" ]); then
-        dest=$($_GIT_TWIG_PATH $@)
+        dest=$(command git-twig $@)
         if [ $? -eq 0 ]; then
             echo "Switching to $dest"
             cd $dest
         fi
     else
-        $_GIT_TWIG_PATH $@
+        command git-twig $@
     fi
 }
+
+complete -o nosort -F _git_twig_completion git-twig
+complete -o nosort -F _git_twig_alias_completion git
