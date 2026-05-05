@@ -1,5 +1,6 @@
 [tools]
 "pipx:basedpyright" = "latest"
 "pipx:poethepoet" = "latest"
+prek = "latest"
 ruff = "latest"
 uv = "latest"

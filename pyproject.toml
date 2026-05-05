@@ -32,7 +32,6 @@ git-twig = "git_twig.__main__:main"
 [dependency-groups]
 dev = [
     "ruff>=0.4.1",
-    "pre-commit>=3.7.0",
     "mypy>=1.10.0",
     "types-psutil>=5.9.5.20240516",
     "git-changelog>=2.5.2",
