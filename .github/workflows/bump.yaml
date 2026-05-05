@@ -19,11 +19,9 @@ jobs:
       run: |
         git config user.name 'github-actions[bot]'
         git config user.email 'github-actions[bot]@users.noreply.github.com'
-    - uses: astral-sh/setup-uv@v6
-      with:
-        python-version: "3.10"
+    - uses: jdx/mise-action@v4
     - name: Bump Version number
       run: |
-        uvx --from poethepoet poe bump
+        mise bump
         git push
         git push --tags
