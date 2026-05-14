@@ -31,7 +31,6 @@ git-twig = "git_twig.__main__:main"
 
 [dependency-groups]
 dev = [
-    "mypy>=1.10.0",
     "types-psutil>=5.9.5.20240516",
 ]
 docs = [
@@ -84,11 +83,3 @@ convention = "google"
 [tool.ruff.format]
 quote-style = "double"
 indent-style = "space"
-
-[tool.mypy]
-python_version = "3.10"
-check_untyped_defs = true
-
-[[tool.mypy.overrides]]
-module = "shellingham.*"
-follow_untyped_imports = true

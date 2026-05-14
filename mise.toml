@@ -1,5 +1,5 @@
 [tools]
-"pipx:basedpyright" = "latest"
+"github:facebook/pyrefly" = "1.0"
 prek = "latest"
 ruff = "latest"
 uv = "latest"
@@ -29,7 +29,7 @@ run = "ruff check src"
 run = "ruff format src --check"
 
 [tasks."lint:typing"]
-run = "uv run mypy src"
+run = "pyrefly check src"
 
 [tasks.lint]
 description = "Static code analysis"

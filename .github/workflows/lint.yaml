@@ -9,6 +9,9 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - uses: jdx/mise-action@v4
+    - name: Setup project
+      run:
+        uv sync
     - name: Lint
       env:
         RUFF_OUTPUT_FORMAT: github
