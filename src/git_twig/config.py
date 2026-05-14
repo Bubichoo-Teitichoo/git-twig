@@ -3,7 +3,7 @@
 from pathlib import Path
 from typing import ClassVar
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 from typing_extensions import Self
 
 
@@ -40,3 +40,8 @@ class Registry(BaseModel):
             super().__init__()
 
         atexit.register(lambda: cfg.write_text(self.model_dump_json(indent=4, by_alias=True)))
+
+    @field_validator("repository", mode="after")
+    @classmethod
+    def _validate_repositories(cls, value: set[Path]) -> set[Path]:
+        return {x for x in value if x.is_dir()}
