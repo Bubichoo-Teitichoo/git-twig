@@ -19,32 +19,36 @@ repos:
   hooks:
     - id: ruff
       name: "ruff: lint"
-      entry: uv run ruff check src
+      entry: ruff check src
       language: system
       pass_filenames: false
       stages:
         - pre-commit
+
     - id: ruff-format
       name: "ruff: format"
       language: system
-      entry: uv run ruff format src
+      entry: ruff format src
       pass_filenames: false
       stages:
         - pre-commit
+
     - id: ruff-sort-imports
       name: "ruff: sort imports"
       language: system
-      entry: uv run ruff check --fix --select I
+      entry: ruff check --fix --select I
       pass_filenames: false
       stages:
         - pre-commit
-    - id: mypy
-      name: mypy
+
+    - id: pyrefly
+      name: pyrefly
       language: system
-      entry: uv run mypy src
+      entry: pyrefly check src
       pass_filenames: false
       stages:
         - pre-commit
+
     - id: uv-sync
       name: "uv: sync"
       language: system
@@ -53,9 +57,31 @@ repos:
       stages:
         - post-merge
         - post-checkout
+
     - id: uv-lock
       name: "uv: lock"
       entry: uv lock
       language: system
       files: ^(uv\.lock|pyproject\.toml|uv\.toml)$
       pass_filenames: false
+      stages:
+        - pre-commit
+
+    - id: mise-install
+      name: "mise: install"
+      language: system
+      entry: mise install --locked
+      pass_filenames: false
+      stages:
+        - post-merge
+        - post-checkout
+
+
+    - id: mise-lock
+      name: "mise: lock"
+      language: system
+      entry: mise lock
+      files: ^mise\.toml$
+      pass_filenames: false
+      stages:
+        - pre-commit
