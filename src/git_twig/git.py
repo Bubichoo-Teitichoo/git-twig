@@ -194,7 +194,14 @@ def worktree_add(branch: str, *, dest: Path | None = None, start_point: str | No
 
     with pushd(git_dir(common=True)) as (_, cwd):
         if dest is None:
-            subdir = (branch,) if is_bare() else (".worktrees", branch)
+            if is_bare():
+                subdir = (branch,)
+            else:
+                if not (gitignore := cwd.parent.joinpath(".worktree", ".gitignore")).is_file():
+                    gitignore.parent.mkdir(exist_ok=True, parents=True)
+                    gitignore.write_text("*\n", encoding="utf-8")
+                subdir = (".worktree", branch)
+
             dest = cwd.parent.joinpath(*subdir)
 
     execute("worktree", "add", dest, branch)
