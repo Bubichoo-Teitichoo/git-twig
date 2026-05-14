@@ -16,7 +16,7 @@ _PATH_TYPE = click.Path(exists=True, dir_okay=True, file_okay=False, resolve_pat
 
 def _repository_callback(ctx: click.Context, param: click.Parameter, value: str | Path) -> Path:  # noqa: ARG001
     if value == "-":
-        config = Registry()
+        config = Registry.load()
         if config.last_repository is None:
             logger.error("No last repository to switch to.")
             sys.exit(1)
@@ -41,7 +41,7 @@ def repository() -> None:
 @repository.command("list")
 def ls() -> None:
     """List all registred repositories."""
-    for repository in Registry().repositories:
+    for repository in Registry.load().repositories:
         click.echo(repository)
 
 
@@ -55,7 +55,7 @@ def register(path: Path) -> None:
 
     If [PATH] is not given the current working directory is used.
     """
-    config = Registry()
+    config = Registry.load()
 
     try:
         with pushd(path):
@@ -101,7 +101,7 @@ def switch(repository: Path, worktree: str | None) -> None:
     """
     from contextlib import suppress
 
-    config = Registry()
+    config = Registry.load()
 
     dest = next((path for path in config.repositories if path == repository), None)
     if dest is not None and worktree is not None:

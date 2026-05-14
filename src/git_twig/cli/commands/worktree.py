@@ -110,7 +110,7 @@ def clone(url: ParseResult, dest: Path) -> None:
         git.execute("fetch", "--all")
         git.execute("remote", "set-head", "origin", "-a")
 
-    Registry().repositories.add(dest.parent)
+    Registry.load().repositories.add(dest.parent)
 
 
 @click.command("add")
@@ -199,7 +199,7 @@ def switch(name: str, start_point: str | None, *, create: bool) -> None:
 
     If [NAME] is `-` you will switch to the previous worktree.
     """
-    config = Registry()
+    config = Registry.load()
     if name == "-":
         if config.last_worktree is not None:
             click.echo(config.last_worktree)
