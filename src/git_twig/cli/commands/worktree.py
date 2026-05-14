@@ -110,7 +110,7 @@ def clone(url: ParseResult, dest: Path) -> None:
         git.execute("fetch", "--all")
         git.execute("remote", "set-head", "origin", "-a")
 
-    Registry().repositories.append(dest.parent)
+    Registry().repositories.add(dest.parent)
 
 
 @click.command("add")

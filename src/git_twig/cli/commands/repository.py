@@ -60,8 +60,9 @@ def register(path: Path) -> None:
     try:
         with pushd(path):
             gitdir = git.git_dir(common=True)
-            logger.info(f"Registering {gitdir.parent}")
-            config.repositories.append(gitdir.parent)
+            if gitdir not in config.repositories:
+                logger.info(f"Registering {gitdir.parent}")
+                config.repositories.add(gitdir.parent)
     except git.GitExecError:
         logger.error(f"{path} does not point to a git repository clone.")
         sys.exit(1)

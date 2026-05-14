@@ -17,7 +17,7 @@ class Registry(BaseModel):
 
     last_worktree: Path | None = Field(default=None, alias="last-worktree")
     last_repository: Path | None = Field(default=None, alias="last-repository")
-    repositories: list[Path] = Field(default_factory=list)
+    repositories: set[Path] = Field(default_factory=set)
 
     _instance: ClassVar[Self | None] = None
 
