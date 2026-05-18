@@ -47,5 +47,5 @@ run = [
 ]
 
 [tasks.docs]
-description = "Run mkdocs live preview server."
-run = "uv run --group docs mkdocs serve --open"
+description = "Run properdocs live preview server."
+run = "uv run --group docs properdocs serve --open"

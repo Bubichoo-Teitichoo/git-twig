@@ -32,12 +32,12 @@ git-twig = "git_twig.__main__:main"
 [dependency-groups]
 dev = []
 docs = [
-    "mkdocs>=1.6.0",
-    "mkdocs-material>=9.5.25",
-    "mkdocs-click>=0.8.1",
-    "mike>=2.1.1",
-    "markdown-callouts>=0.4.0",
-    "mkdocs-same-dir>=0.1.3",
+    "properdocs~=1.6.0",
+    "mkdocs-material~=9.7.0",
+    "mkdocs-click~=0.9.0",
+    "mike~=2.2.0",
+    "mkdocs-same-dir~=0.1.5",
+    "markdown-callouts~=0.4.0",
 ]
 
 [tool.git-changelog]
