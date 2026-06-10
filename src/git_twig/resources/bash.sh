@@ -45,5 +45,14 @@ git-twig () {
     fi
 }
 
+git (){
+    if [ "$1" = "twig" ]; then
+        shift 1
+        git-twig $@
+    else
+        command git $@
+    fi
+}
+
 complete -o nosort -F _git_twig_completion git-twig
 complete -o nosort -F _git_twig_alias_completion git
