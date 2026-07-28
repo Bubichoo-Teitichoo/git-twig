@@ -1,6 +1,7 @@
 [tools]
 "github:facebook/pyrefly" = "1.1"
 prek = "latest"
+python = "3.13"
 ruff = "latest"
 uv = "latest"
 
