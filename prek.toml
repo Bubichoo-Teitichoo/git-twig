@@ -118,7 +118,7 @@ repo = "local"
 
 
     [[repos.hooks]]
-    id = "mise-lcok"
+    id = "mise-lock"
     name = "mise: lock"
     language = "system"
     entry = "mise lock"
