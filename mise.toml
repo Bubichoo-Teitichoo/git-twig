@@ -1,5 +1,5 @@
 [tools]
-"github:facebook/pyrefly" = "1.0"
+"github:facebook/pyrefly" = "1.1"
 prek = "latest"
 ruff = "latest"
 uv = "latest"
